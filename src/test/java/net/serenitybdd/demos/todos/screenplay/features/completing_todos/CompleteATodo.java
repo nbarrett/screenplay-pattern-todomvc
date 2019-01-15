@@ -4,6 +4,7 @@ import net.serenitybdd.demos.todos.screenplay.questions.TheItemStatus;
 import net.serenitybdd.demos.todos.screenplay.questions.TheItems;
 import net.serenitybdd.demos.todos.screenplay.tasks.CompleteItem;
 import net.serenitybdd.demos.todos.screenplay.tasks.Start;
+import net.serenitybdd.demos.todos.screenplay.tasks.StartInitiallySilently;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
@@ -22,13 +23,13 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(SerenityRunner.class)
 @WithTags({
         @WithTag("Screenplay pattern"),
-        @WithTag("version:RELEASE-1"),
+        @WithTag("issue:1523"),
 })
 public class CompleteATodo {
 
     private Actor james = Actor.named("James");
 
-    @Managed//(driver = "chrome", options = "--headless")
+    @Managed
     private WebDriver hisBrowser;
 
     @Before public void jamesCanBrowseTheWeb() {
@@ -38,7 +39,7 @@ public class CompleteATodo {
     @Test
     public void should_be_able_to_complete_a_todo() {
 
-        givenThat(james).wasAbleTo(Start.withATodoListContaining("Walk the dog", "Put out the garbage"));
+        givenThat(james).wasAbleTo(StartInitiallySilently.withATodoListContaining("Walk the dog", "Put out the garbage"));
 
         when(james).attemptsTo(
             CompleteItem.called("Walk the dog")
